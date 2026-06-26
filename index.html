@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获奖证书查询</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", SimHei, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            padding: 30px 15px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* 头部标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .page-header h1 {
+            font-size: 32px;
+            color: #111;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .page-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        /* 查询表单区域 */
+        .search-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        .search-box h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .search-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .search-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        .search-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        .search-item input {
+            width: 100%;
+            height: 42px;
+            padding: 0 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+        .search-btn {
+            height: 42px;
+            padding: 0 30px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+        .search-btn:hover {
+            background-color: #1d4ed8;
+        }
+        /* 证书详情卡片 */
+        .cert-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: none;
+        }
+        .cert-top-title {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(#ffffff, #f8f9fa);
+        }
+        .cert-top-title h2 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+            line-height: 1.4;
+        }
+        .cert-sub-title {
+            font-size: 28px;
+            margin-top: 16px;
+            color: #222;
+        }
+        .table-wrap {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table tr:first-child td {
+            background-color: #e9ecef;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            padding: 16px;
+        }
+        td {
+            border: 1px solid #dcdfe6;
+            padding: 18px 24px;
+            font-size: 22px;
+        }
+        td:first-child {
+            width: 32%;
+            background-color: #f5f7fa;
+            font-weight: 500;
+        }
+        /* 无数据提示 */
+        .empty-tip {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 18px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>获奖证书查询</h1>
+        <p>支持按姓名、证书编号查询大赛获奖证书信息</p>
+    </div>
+
+    <!-- 查询表单 -->
+    <div class="search-box">
+        <h2>证书查询</h2>
+        <div class="search-row">
+            <div class="search-item">
+                <label>作者姓名</label>
+                <input type="text" id="nameInput" placeholder="请输入姓名">
+            </div>
+            <div class="search-item">
+                <label>证书编号</label>
+                <input type="text" id="codeInput" placeholder="请输入证书编号">
+            </div>
+            <button class="search-btn" onclick="searchCert()">立即查询</button>
+        </div>
+    </div>
+
+    <!-- 无结果提示 -->
+    <div class="empty-tip" id="emptyTip">
+        未匹配到对应证书信息，请核对姓名/证书编号后重新查询
+    </div>
+
+    <!-- 证书详情展示卡片 -->
+    <div class="cert-card" id="certCard">
+        <div class="cert-top-title">
+            <h2>2025年全国中小学生语文征文大赛<br>荣誉证书</h2>
+            <div class="cert-sub-title">证书信息</div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <td colspan="2">作品详情</td>
+                </tr>
+                <tr>
+                    <td>作品名称</td>
+                    <td id="cWorkName">《诵写古今，不负少年韶华》</td>
+                </tr>
+                <tr>
+                    <td>作者姓名</td>
+                    <td id="cName">莫敏君</td>
+                </tr>
+                <tr>
+                    <td>作者单位</td>
+                    <td id="cUnit">忠县三汇中学校</td>
+                </tr>
+                <tr>
+                    <td>证书编号</td>
+                    <td id="cCode">QG202601091218</td>
+                </tr>
+                <tr>
+                    <td>证书类别</td>
+                    <td id="cType">中学生组征文</td>
+                </tr>
+                <tr>
+                    <td>获奖等级</td>
+                    <td id="cLevel">一等奖</td>
+                </tr>
+  <tr>
+                    <td>指导教师</td>
+                    <td id="cLevel">陈阳</td>
+                </tr>
+  <tr>
+  <tr>
+                    <td>教师单位</td>
+                    <td id="cLevel">忠县三汇中学校</td>
+                </tr>
+
+                    <td>获奖等级</td>
+                    <td id="cLevel">优秀指导教师</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 模拟证书数据库，可自行扩充多条证书数据
+    const certDatabase = [
+        {
+            workName: "《探究图像识别的过程》",
+            name: "陈阳",
+            unit: "忠县三汇中学校",
+            code: "202601018",
+            type: "创新实验说课",
+            level: "二等奖"
+        },
+        // 示例：新增第二条证书，复制下面格式填写即可
+        /*
+        {
+            workName: "《XX课堂数字化教学》",
+            name: "张三",
+            unit: "忠县三汇中学校",
+            code: "202601020",
+            type: "微课教学",
+            level: "一等奖"
+        }
+        */
+    ];
+
+    function searchCert() {
+        const nameVal = document.getElementById("nameInput").value.trim();
+        const codeVal = document.getElementById("codeInput").value.trim();
+        const certCard = document.getElementById("certCard");
+        const emptyTip = document.getElementById("emptyTip");
+
+        // 隐藏原有展示
+        certCard.style.display = "none";
+        emptyTip.style.display = "none";
+
+        // 筛选匹配数据
+        let targetCert = null;
+        for(let item of certDatabase) {
+            if((nameVal && item.name === nameVal) || (codeVal && item.code === codeVal)) {
+                targetCert = item;
+                break;
+            }
+        }
+
+        if(targetCert) {
+            // 填充证书信息
+            document.getElementById("cWorkName").innerText = targetCert.workName;
+            document.getElementById("cName").innerText = targetCert.name;
+            document.getElementById("cUnit").innerText = targetCert.unit;
+            document.getElementById("cCode").innerText = targetCert.code;
+            document.getElementById("cType").innerText = targetCert.type;
+            document.getElementById("cLevel").innerText = targetCert.level;
+            certCard.style.display = "block";
+        } else {
+            emptyTip.style.display = "block";
+        }
+    }
+</script>
+</body>
+</html>
