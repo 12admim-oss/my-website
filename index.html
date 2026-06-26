@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>获奖证书查询</title>
+    <title>校园赛事专题证书 - 证书查询</title>
     <style>
         * {
             margin: 0;
@@ -12,278 +12,228 @@
             font-family: "Microsoft YaHei", SimHei, sans-serif;
         }
         body {
-            background-color: #f5f7fa;
-            padding: 30px 15px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        /* 头部标题 */
-        .page-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .page-header h1 {
-            font-size: 32px;
-            color: #111;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-        .page-header p {
-            color: #666;
-            font-size: 16px;
-        }
-        /* 查询表单区域 */
-        .search-box {
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
-        .search-box h2 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: #222;
-        }
-        .search-row {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .search-item {
-            flex: 1;
-            min-width: 200px;
-        }
-        .search-item label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            background: #ffffff;
+            font-size: 15px;
             color: #333;
         }
-        .search-item input {
+        /* 顶部深蓝色标题栏 */
+        .header-bar {
             width: 100%;
-            height: 42px;
-            padding: 0 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            height: 48px;
+            background-color: #2468b3;
+            color: #fff;
+            line-height: 48px;
+            padding-left: 16px;
+            font-size: 19px;
+        }
+        /* 搜索框区域 */
+        .search-wrap {
+            padding: 18px 16px;
+            border: 1px solid #c0d4eb;
+        }
+        .search-tip {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        .search-input-row {
+            display: flex;
+            gap: 0;
+        }
+        #searchKey {
+            flex: 1;
+            height: 40px;
+            padding: 0 10px;
+            border: 1px solid #b8c8e0;
+            border-right: none;
             font-size: 15px;
         }
-        .search-btn {
-            height: 42px;
-            padding: 0 30px;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 24px;
-        }
-        .search-btn:hover {
-            background-color: #1d4ed8;
-        }
-        /* 证书详情卡片 */
-        .cert-card {
+        #searchBtn {
+            width: 80px;
+            height: 40px;
+            border: 1px solid #b8c8e0;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            overflow: hidden;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        /* 证书结果面板 */
+        .result-box {
+            margin: 24px 16px;
+            border: 3px solid #d0e6f7;
+            padding: 16px;
             display: none;
         }
-        .cert-top-title {
-            padding: 30px 20px;
-            text-align: center;
-            background: linear-gradient(#ffffff, #f8f9fa);
+        .top-empty-line {
+            height: 30px;
+            border-bottom: 1px solid #c6e0f5;
+            margin-bottom: 12px;
         }
-        .cert-top-title h2 {
-            font-size: 42px;
-            font-weight: bold;
-            color: #000;
-            line-height: 1.4;
-        }
-        .cert-sub-title {
-            font-size: 28px;
-            margin-top: 16px;
-            color: #222;
-        }
-        .table-wrap {
-            padding: 20px;
-        }
-        table {
+        /* 活动蓝色标题条 */
+        .activity-title {
             width: 100%;
-            border-collapse: collapse;
+            background-color: #2468b3;
+            color: #fff;
+            padding: 10px 12px;
+            font-size: 16px;
+            margin-bottom: 8px;
         }
-        table tr:first-child td {
-            background-color: #e9ecef;
-            text-align: center;
-            font-size: 26px;
-            font-weight: bold;
-            padding: 16px;
+        /* 信息单行样式 */
+        .info-line {
+            padding: 9px 0;
+            border-bottom: 1px solid #e2e9f3;
+            font-size: 15px;
         }
-        td {
-            border: 1px solid #dcdfe6;
-            padding: 18px 24px;
-            font-size: 22px;
-        }
-        td:first-child {
-            width: 32%;
-            background-color: #f5f7fa;
-            font-weight: 500;
+        .info-label {
+            display: inline-block;
+            min-width: 130px;
+            color: #222;
         }
         /* 无数据提示 */
         .empty-tip {
+            margin: 40px 0;
             text-align: center;
-            padding: 60px 20px;
-            color: #999;
-            font-size: 18px;
+            font-size: 17px;
+            color: #888;
             display: none;
+        }
+        /* 页面底部备案文字 */
+        .footer-text {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="page-header">
-        <h1>获奖证书查询</h1>
-        <p>支持按姓名、证书编号查询大赛获奖证书信息</p>
+    <!-- 顶部标题蓝条 -->
+    <div class="header-bar">
+        校园赛事专题证书 - 证书查询
     </div>
 
-    <!-- 查询表单 -->
-    <div class="search-box">
-        <h2>证书查询</h2>
-        <div class="search-row">
-            <div class="search-item">
-                <label>作者姓名</label>
-                <input type="text" id="nameInput" placeholder="请输入姓名">
-            </div>
-            <div class="search-item">
-                <label>证书编号</label>
-                <input type="text" id="codeInput" placeholder="请输入证书编号">
-            </div>
-            <button class="search-btn" onclick="searchCert()">立即查询</button>
+    <!-- 搜索区域 -->
+    <div class="search-wrap">
+        <div class="search-tip">请输入您的编号/作品名称/姓名/单位</div>
+        <div class="search-input-row">
+            <input type="text" id="searchKey" placeholder="输入姓名、证书编号、作品名查询">
+            <button id="searchBtn" onclick="searchCert()">查询</button>
         </div>
     </div>
 
-    <!-- 无结果提示 -->
+    <!-- 无查询结果提示 -->
     <div class="empty-tip" id="emptyTip">
-        未匹配到对应证书信息，请核对姓名/证书编号后重新查询
+        未查询到匹配证书信息，请核对关键词后重新输入
     </div>
 
-    <!-- 证书详情展示卡片 -->
-    <div class="cert-card" id="certCard">
-        <div class="cert-top-title">
-            <h2 id="certTitle">2025年度教育信息技术应用创新大赛<br>荣誉证书</h2>
-            <div class="cert-sub-title">证书信息</div>
+    <!-- 证书查询结果面板 -->
+    <div class="result-box" id="resultBox">
+        <div class="top-empty-line"></div>
+        <div class="activity-title" id="actName">2025年全国中小学生语文征文大赛</div>
+
+        <div class="info-line">
+            <span class="info-label">主办单位：</span>
+            <span id="hostOrg">全国中小学语文竞赛组委会</span>
         </div>
-        <div class="table-wrap">
-            <table>
-                <tr>
-                    <td colspan="2">作品详情</td>
-                </tr>
-                <tr>
-                    <td>作品名称</td>
-                    <td id="cWorkName"></td>
-                </tr>
-                <tr>
-                    <td>作者姓名</td>
-                    <td id="cName"></td>
-                </tr>
-                <tr>
-                    <td>作者单位</td>
-                    <td id="cUnit"></td>
-                </tr>
-                <tr>
-                    <td>证书编号</td>
-                    <td id="cCode"></td>
-                </tr>
-                <tr>
-                    <td>证书类别</td>
-                    <td id="cType"></td>
-                </tr>
-                <tr>
-                    <td>学生获奖等级</td>
-                    <td id="cLevel"></td>
-                </tr>
-                <tr>
-                    <td>指导教师</td>
-                    <td id="teacherName"></td>
-                </tr>
-                <tr>
-                    <td>教师单位</td>
-                    <td id="teacherUnit"></td>
-                </tr>
-                <tr>
-                    <td>教师奖项</td>
-                    <td id="teacherAward"></td>
-                </tr>
-            </table>
+        <div class="info-line">
+            <span class="info-label">年份：</span>
+            <span id="yearText">2025年度</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">获奖者：</span>
+            <span id="stuName">莫敏君</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">获奖者单位：</span>
+            <span id="schoolName">忠县三汇中学校</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">证书编号：</span>
+            <span id="certNo">QG202601091218</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">作品名称：</span>
+            <span id="workTitle">《诵写古今，不负少年韶华》</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">奖项：</span>
+            <span id="prizeInfo">中学生组征文一等奖</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">指导教师：</span>
+            <span id="teaName">陈阳</span>
+        </div>
+        <div class="info-line">
+            <span class="info-label">教师荣誉：</span>
+            <span id="teaPrize">优秀指导教师</span>
         </div>
     </div>
-</div>
+
+    <!-- 页面底部说明文字 -->
+    <div class="footer-text">
+        主办：校园赛事组委会 技术支持：忠县三汇中学校信息化中心<br>
+        本页面仅用于校内证书核验，数据真实有效
+    </div>
 
 <script>
-    // 完整证书数据库，每条数据包含全部字段
-    const certDatabase = [
+    // 校内证书数据库
+    const certData = [
         {
-            title: "2025年度教育信息技术应用创新大赛<br>荣誉证书",
-            workName: "《探究图像识别的过程》",
-            name: "陈阳",
-            unit: "忠县三汇中学校",
-            code: "202601018",
-            type: "创新实验说课",
-            level: "二等奖",
-            teacherName: "",
-            teacherUnit: "",
-            teacherAward: ""
-        },
-        {
-            title: "2025年全国中小学生语文征文大赛<br>荣誉证书",
-            workName: "《诵写古今，不负少年韶华》",
-            name: "莫敏君",
-            unit: "忠县三汇中学校",
-            code: "QG202601091218",
-            type: "中学生组征文",
-            level: "一等奖",
-            teacherName: "陈阳",
-            teacherUnit: "忠县三汇中学校",
-            teacherAward: "优秀指导教师"
+            actName: "2025年全国中小学生语文征文大赛",
+            hostOrg: "全国中小学语文竞赛组委会",
+            yearText: "2025年度",
+            stuName: "莫敏君",
+            schoolName: "忠县三汇中学校",
+            certNo: "QG202601091218",
+            workTitle: "《诵写古今，不负少年韶华》",
+            prizeInfo: "中学生组征文一等奖",
+            teaName: "陈阳",
+            teaPrize: "优秀指导教师"
         }
     ];
 
     function searchCert() {
-        const nameVal = document.getElementById("nameInput").value.trim();
-        const codeVal = document.getElementById("codeInput").value.trim();
-        const certCard = document.getElementById("certCard");
-        const emptyTip = document.getElementById("emptyTip");
+        let key = document.getElementById("searchKey").value.trim();
+        let resultBox = document.getElementById("resultBox");
+        let emptyTip = document.getElementById("emptyTip");
 
-        // 重置页面状态
-        certCard.style.display = "none";
+        // 重置页面显示
+        resultBox.style.display = "none";
         emptyTip.style.display = "none";
 
-        // 匹配证书
-        let targetCert = null;
-        for(let item of certDatabase) {
-            if((nameVal && item.name === nameVal) || (codeVal && item.code === codeVal)) {
-                targetCert = item;
+        if (!key) {
+            emptyTip.innerText = "请输入姓名、证书编号或作品名称进行查询";
+            emptyTip.style.display = "block";
+            return;
+        }
+
+        // 模糊匹配任意字段
+        let target = null;
+        for (let item of certData) {
+            if (
+                item.stuName.includes(key) ||
+                item.teaName.includes(key) ||
+                item.certNo.includes(key) ||
+                item.workTitle.includes(key) ||
+                item.schoolName.includes(key)
+            ) {
+                target = item;
                 break;
             }
         }
 
-        if(targetCert) {
-            // 填充全部证书内容
-            document.getElementById("certTitle").innerHTML = targetCert.title;
-            document.getElementById("cWorkName").innerText = targetCert.workName;
-            document.getElementById("cName").innerText = targetCert.name;
-            document.getElementById("cUnit").innerText = targetCert.unit;
-            document.getElementById("cCode").innerText = targetCert.code;
-            document.getElementById("cType").innerText = targetCert.type;
-            document.getElementById("cLevel").innerText = targetCert.level;
-            document.getElementById("teacherName").innerText = targetCert.teacherName;
-            document.getElementById("teacherUnit").innerText = targetCert.teacherUnit;
-            document.getElementById("teacherAward").innerText = targetCert.teacherAward;
-            certCard.style.display = "block";
+        if (target) {
+            // 填充证书所有信息
+            document.getElementById("actName").innerText = target.actName;
+            document.getElementById("hostOrg").innerText = target.hostOrg;
+            document.getElementById("yearText").innerText = target.yearText;
+            document.getElementById("stuName").innerText = target.stuName;
+            document.getElementById("schoolName").innerText = target.schoolName;
+            document.getElementById("certNo").innerText = target.certNo;
+            document.getElementById("workTitle").innerText = target.workTitle;
+            document.getElementById("prizeInfo").innerText = target.prizeInfo;
+            document.getElementById("teaName").innerText = target.teaName;
+            document.getElementById("teaPrize").innerText = target.teaPrize;
+            resultBox.style.display = "block";
         } else {
             emptyTip.style.display = "block";
         }
