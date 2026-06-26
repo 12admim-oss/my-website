@@ -174,7 +174,7 @@
     <!-- 证书详情展示卡片 -->
     <div class="cert-card" id="certCard">
         <div class="cert-top-title">
-            <h2>2025年全国中小学生语文征文大赛<br>荣誉证书</h2>
+            <h2 id="certTitle">2025年度教育信息技术应用创新大赛<br>荣誉证书</h2>
             <div class="cert-sub-title">证书信息</div>
         </div>
         <div class="table-wrap">
@@ -184,69 +184,72 @@
                 </tr>
                 <tr>
                     <td>作品名称</td>
-                    <td id="cWorkName">《诵写古今，不负少年韶华》</td>
+                    <td id="cWorkName"></td>
                 </tr>
                 <tr>
                     <td>作者姓名</td>
-                    <td id="cName">莫敏君</td>
+                    <td id="cName"></td>
                 </tr>
                 <tr>
                     <td>作者单位</td>
-                    <td id="cUnit">忠县三汇中学校</td>
+                    <td id="cUnit"></td>
                 </tr>
                 <tr>
                     <td>证书编号</td>
-                    <td id="cCode">QG202601091218</td>
+                    <td id="cCode"></td>
                 </tr>
                 <tr>
                     <td>证书类别</td>
-                    <td id="cType">中学生组征文</td>
+                    <td id="cType"></td>
                 </tr>
                 <tr>
-                    <td>获奖等级</td>
-                    <td id="cLevel">一等奖</td>
+                    <td>学生获奖等级</td>
+                    <td id="cLevel"></td>
                 </tr>
-  <tr>
+                <tr>
                     <td>指导教师</td>
-                    <td id="cLevel">陈阳</td>
+                    <td id="teacherName"></td>
                 </tr>
-  <tr>
-  <tr>
+                <tr>
                     <td>教师单位</td>
-                    <td id="cLevel">忠县三汇中学校</td>
+                    <td id="teacherUnit"></td>
                 </tr>
-
-                    <td>获奖等级</td>
-                    <td id="cLevel">优秀指导教师</td>
+                <tr>
+                    <td>教师奖项</td>
+                    <td id="teacherAward"></td>
                 </tr>
-
             </table>
         </div>
     </div>
 </div>
 
 <script>
-    // 模拟证书数据库，可自行扩充多条证书数据
+    // 完整证书数据库，每条数据包含全部字段
     const certDatabase = [
         {
+            title: "2025年度教育信息技术应用创新大赛<br>荣誉证书",
             workName: "《探究图像识别的过程》",
             name: "陈阳",
             unit: "忠县三汇中学校",
-            code: "QG202601091218",
+            code: "202601018",
             type: "创新实验说课",
-            level: "二等奖"
+            level: "二等奖",
+            teacherName: "",
+            teacherUnit: "",
+            teacherAward: ""
         },
-        // 示例：新增第二条证书，复制下面格式填写即可
-        /*
         {
-            workName: "《XX课堂数字化教学》",
-            name: "张三",
+            title: "2025年全国中小学生语文征文大赛<br>荣誉证书",
+            workName: "《诵写古今，不负少年韶华》",
+            name: "莫敏君",
             unit: "忠县三汇中学校",
-            code: "202601020",
-            type: "微课教学",
-            level: "一等奖"
+            code: "QG202601091218",
+            type: "中学生组征文",
+            level: "一等奖",
+            teacherName: "陈阳",
+            teacherUnit: "忠县三汇中学校",
+            teacherAward: "优秀指导教师"
         }
-        */
     ];
 
     function searchCert() {
@@ -255,11 +258,11 @@
         const certCard = document.getElementById("certCard");
         const emptyTip = document.getElementById("emptyTip");
 
-        // 隐藏原有展示
+        // 重置页面状态
         certCard.style.display = "none";
         emptyTip.style.display = "none";
 
-        // 筛选匹配数据
+        // 匹配证书
         let targetCert = null;
         for(let item of certDatabase) {
             if((nameVal && item.name === nameVal) || (codeVal && item.code === codeVal)) {
@@ -269,13 +272,17 @@
         }
 
         if(targetCert) {
-            // 填充证书信息
+            // 填充全部证书内容
+            document.getElementById("certTitle").innerHTML = targetCert.title;
             document.getElementById("cWorkName").innerText = targetCert.workName;
             document.getElementById("cName").innerText = targetCert.name;
             document.getElementById("cUnit").innerText = targetCert.unit;
             document.getElementById("cCode").innerText = targetCert.code;
             document.getElementById("cType").innerText = targetCert.type;
             document.getElementById("cLevel").innerText = targetCert.level;
+            document.getElementById("teacherName").innerText = targetCert.teacherName;
+            document.getElementById("teacherUnit").innerText = targetCert.teacherUnit;
+            document.getElementById("teacherAward").innerText = targetCert.teacherAward;
             certCard.style.display = "block";
         } else {
             emptyTip.style.display = "block";
